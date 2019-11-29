@@ -1,0 +1,3 @@
+[submodule "assets/images"]
+	path = assets/images
+	url = git@gitlab.com:fratikb0t/fratikb0t-zdjecia.git
