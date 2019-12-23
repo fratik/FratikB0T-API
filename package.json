@@ -27,7 +27,7 @@
     "url": "https://api.fratikbot.pl/"
   },
   "devDependencies": {
-    "eslint": "^6.7.1"
+    "eslint": "^6.8.0"
   },
   "repository": "git+ssh://git@github.com/fratik/fratikb0t-api.git",
   "bugs": {
