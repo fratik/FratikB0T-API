@@ -383,8 +383,8 @@ server.get("/api/image/hug", authorize, async function(req, res) {
  */
 server.get("/api/image/blurple", authorize, async function(req, res) {
   if (!req.query.avatarURL) return res.send(400, {success: false, error: {code: 400, body: "Bad Request", description: "Brak linka do awataru"}});
-  if (cache.has("blurple" + req.query.avatarURL.replace(/\.gif/g, ".png"))) {
-    return res.send({success: true, image: cache.get("blurple" + req.query.avatarURL.replace(/\.gif/g, ".png"))});
+  if (cache.has("blurple" + req.query.avatarURL.replace(/\.gif/g, ".png") + req.query.reverse + req.query.classic)) {
+    return res.send({success: true, image: cache.get("blurple" + req.query.avatarURL.replace(/\.gif/g, ".png") + req.query.reverse + req.query.classic)});
   }
   let body;
   try {
@@ -436,7 +436,7 @@ server.get("/api/image/blurple", authorize, async function(req, res) {
     }
     canvas.putImageData(imData, 0, 0);
     const buff = await canvas.toBufferAsync();
-    cache.set("blurple" + req.query.avatarURL.replace(/\.gif/g, ".png"), buff);
+    cache.set("blurple" + req.query.avatarURL.replace(/\.gif/g, ".png") + req.query.reverse + req.query.classic, buff);
     return res.send({success: true, image: buff});
   } catch (err) {
     return res.send(400, {success: false, error: {code: 400, body: "Bad Request", description: "Nie udało się pobrać awataru"}});
@@ -973,8 +973,8 @@ server.get("/api/image/chain", authorize, async function(req, res) {
   if (!plates.chain) plates.chain = await fsn.readFile("./assets/images/plate_chain.png");
   if (!req.query.avatarURL) return res.send(400, {success: false, error: {code: 400, body: "Bad Request", description: "Brak linka do awataru (1)"}});
   if (!req.query.avatarURL2) return res.send(400, {success: false, error: {code: 400, body: "Bad Request", description: "Brak linka do awataru (2)"}});
-  if (cache.has("chain" + req.query.avatarURL.replace(/\.gif/g, ".png"))) {
-    return res.send({success: true, image: cache.get("chain" + req.query.avatarURL.replace(/\.gif/g, ".png"))});
+  if (cache.has("chain" + req.query.avatarURL.replace(/\.gif/g, ".png") + req.query.avatarURL2.replace(/\.gif/g, ".png"))) {
+    return res.send({success: true, image: cache.get("chain" + req.query.avatarURL.replace(/\.gif/g, ".png") + req.query.avatarURL2.replace(/\.gif/g, ".png"))});
   }
   let body;
   let body2;
@@ -996,7 +996,7 @@ server.get("/api/image/chain", authorize, async function(req, res) {
       .restore()
       .addImage(plates.chain, 0, 0, 1920, 1080)
       .toBuffer();
-    cache.set("chain" + req.query.avatarURL.replace(/\.gif/g, ".png"), resp);
+    cache.set("chain" + req.query.avatarURL.replace(/\.gif/g, ".png") + req.query.avatarURL2.replace(/\.gif/g, ".png"), resp);
     return res.send({success: true, image: resp});
   } catch (err) {
     return res.send(500, {success: false, error: {code: 500, body: "Internal Server Error", description: "Nie udało się wygenerować zdjęcia"}});
